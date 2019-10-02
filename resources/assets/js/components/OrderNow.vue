@@ -116,7 +116,8 @@
 		</portal>
 
 		<portal to="destination">
-			<router-link to="/Checkout" class="btn_full">GO TO CHECKOUT</router-link>
+			<a href="javascript:void(0);" class="btn_full" @click="openingShortly = true;">GO TO CHECKOUT</a>
+			<span v-if="openingShortly">We are opening shortly</span>
 			<a @click="$router.go(-1)" class="btn_full"><i class="icon-right"></i>&nbsp;ADD OTHER ITEM</a>
 		</portal>
 
@@ -145,7 +146,9 @@ export default {
 	},
 
 	data() {
-		return {}
+		return {
+			openingShortly: false
+		}
 	},
 
 	methods: {}

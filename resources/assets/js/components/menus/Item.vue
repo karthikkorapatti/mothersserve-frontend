@@ -25,7 +25,7 @@
 				</label>
 				<button @click="incrementOrderCount">+</button>
 				<label>
-					<a href="#0" class="add_to_basket">Add to cart <span>{{ `Rs ${totalOrderCount}` }}</span></a>
+					<a href="javascript:void(0);" class="add_to_basket" @click="addToCart()">Add to cart <span>{{ `Rs ${totalOrderCount}` }}</span></a>
 				</label>
 			</div>
 		</div>
@@ -84,6 +84,21 @@ export default {
 			}
 
 			this.orderCount--;
+		},
+
+		addToCart() {
+			if(! this.orderCount) {
+				return;
+			}
+			this.$store.commit('cart/ADD_TO_CART', {
+				quantity: this.orderCount,
+				entry: {
+					id: this.item.id,
+					name: this.item.name,
+					price: parseFloat(this.item.price),
+					currency: 'Rs'
+				}
+			})
 		}
 	},
 
