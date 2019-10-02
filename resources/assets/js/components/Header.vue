@@ -9,8 +9,8 @@
 					<span>Mother's Serve</span>
 				</router-link>
 			</div>
-			<!-- <nav class="col--md-8 col-sm-8 col-xs-8">
-			<a class="cmn-toggle-switch cmn-toggle-switch__htx open_close" href="javascript:void(0);"><span>Menu mobile</span></a>
+			<nav class="col--md-8 col-sm-8 col-xs-8">
+			<!-- <a class="cmn-toggle-switch cmn-toggle-switch__htx open_close" href="javascript:void(0);"><span>Menu mobile</span></a>
 			<div class="main-menu">
 				<div id="header_menu">
 					<img src="img/logo.png" width="190" height="23" alt="" data-retina="true">
@@ -24,8 +24,8 @@
 						<a href="javascript:void(0);" data-toggle="modal" data-target="#register" @click="register()">Register</a>
 					</li>
 				</ul>
-			</div><!-- End main-menu -->
-			</nav> -->
+			</div> --><!-- End main-menu -->
+			</nav>
 		</div><!-- End row -->
 	</div><!-- End container -->
 </header>
