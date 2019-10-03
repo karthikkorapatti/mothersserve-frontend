@@ -19,6 +19,8 @@ Vue.use(VModal, {
 });
 Vue.use(PortalVue);
 
+window.events = new Vue();
+
 Vue.config.productionTip = false
 
 new Vue({
@@ -33,10 +35,33 @@ new Vue({
 		}
 	},
 
-	router,
-	store,
+	computed: {
+		isLoggedIn() {
+			return this.$store.getters['auth/getIsLoggedIn'];
+		}
+	},
+
+	mounted() {
+		this.isUserLoggedIn();
+	},
 
 	methods: {
+		isUserLoggedIn() {
+			axios.post(`${this.$root.urls.api}/is-loggedin`)
+ 			.then(({data}) => {
+ 				console.log(data);
+
+ 				this.$store.commit('auth/INITIALIZE', { user: data.data });
+ 				this.$store.commit('auth/LOGIN_SUCCESSFUL', { isLoggedIn: true });
+ 			})
+ 			.catch(error => {
+ 				console.log(error.response);
+
+ 				this.$store.commit('auth/INITIALIZE', { user: {} });
+ 				this.$store.commit('auth/LOGIN_SUCCESSFUL', { isLoggedIn: false });
+ 			});
+		},
+
 		handleSCroll (event) {
 			let header = document.querySelector(".header-bar");
 
@@ -55,6 +80,9 @@ new Vue({
 	destroyed() {
 		window.removeEventListener('scroll', this.handleSCroll);
 	},
+
+	router,
+	store,
 
 	render: h => h(App),
 }).$mount('#app')

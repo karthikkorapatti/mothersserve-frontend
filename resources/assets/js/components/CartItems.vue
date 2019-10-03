@@ -7,7 +7,10 @@
 				<tbody>
 					<tr v-for="item in getCartItems">
 						<td>
-							<a href="#0" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>{{ item.quantity }}x</strong> {{ item.entry.name }}
+							<a href="javascript:void(0);" class="remove_item" @click="removeFromCart(item)">
+								<i class="icon_minus_alt"></i>
+							</a>
+							<strong>{{ item.quantity }}x</strong> {{ item.entry.name }}
 						</td>
 						<td>
 							<strong class="pull-right">{{ `${item.entry.currency} ${item.quantity * item.entry.price}` }}</strong>
@@ -88,7 +91,9 @@ export default {
 	},
 
 	methods: {
-
+		removeFromCart(item) {
+			this.$store.commit('cart/REMOVE_FROM_CART', item);
+		}
 	}
 }
 </script>

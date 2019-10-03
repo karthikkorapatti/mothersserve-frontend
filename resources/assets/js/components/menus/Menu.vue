@@ -12,8 +12,9 @@
 
 	<cart-items></cart-items>
 
-	<portal to="destination">
-		<router-link to="/OrderNow" class="btn_full">Order now</router-link>
+
+	<portal to="destination" v-if="getCartItemsCount">
+		<a href="javascript:void(0);" @click="checkForLogin()" class="btn_full">Order now</a>
 	</portal>
 
 	<portal	to="sideBarLeft">
@@ -50,6 +51,12 @@ export default {
 		return {}
 	},
 
+	computed: {
+		getCartItemsCount() {
+			return this.$store.getters['cart/getItemsCount'];
+		}
+	},
+
 	mounted() {
 
 	},
@@ -57,6 +64,18 @@ export default {
 	methods: {
 		toggleDropDown() {
 			this.openDropDown =! this.openDropDown;
+		},
+
+		checkForLogin() {
+			if(! this.$root.isLoggedIn) {
+				window.events.$emit('login:requested', true);
+
+				return;
+			}
+
+			this.$router.push({
+				name: 'orderNow'
+			});
 		}
 	}
 }

@@ -90,6 +90,7 @@ export default {
 			if(! this.orderCount) {
 				return;
 			}
+
 			this.$store.commit('cart/ADD_TO_CART', {
 				quantity: this.orderCount,
 				entry: {
@@ -98,7 +99,7 @@ export default {
 					price: parseFloat(this.item.price),
 					currency: 'Rs'
 				}
-			})
+			});
 		}
 	},
 
