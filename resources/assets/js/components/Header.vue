@@ -124,6 +124,16 @@ export default {
 					}
 				}
 			);
+
+			window.events.$on(
+				'register:requested', (data) => {
+					if(data) {
+						if(!this.isLoggedIn) {
+							this.register();
+						}
+					}
+				}
+			);
 		}
 	},
 }

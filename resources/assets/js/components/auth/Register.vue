@@ -16,6 +16,10 @@
 			</div>
 		</div>
 		<button class="btn btn-submit" @click="register()">Register</button>
+
+		<div class="text-left">
+			Have account? <a href="javascript:void(0);" @click="login()">Click here</a>
+		</div>
 	</div>
 </div>
 </template>
@@ -53,6 +57,11 @@ export default {
 
  				this.errors.push(error.response.data.data);
  			});
+		},
+
+		login() {
+			window.events.$emit('login:requested', true);
+			this.$modal.hide('modal:users:register');
 		}
 	}
 }

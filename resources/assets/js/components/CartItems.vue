@@ -21,10 +21,10 @@
 			<hr>
 			<div class="row" id="options_2">
 				<div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
-					<label><input type="radio" value="" checked name="option_2" class="icheck">Delivery</label>
+					<label><input type="radio" value="1" :checked="getDeliveryOption == 1" name="option_2" class="icheck" @click="changeDeliveryOption(1)">Delivery</label>
 				</div>
 				<div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
-					<label><input type="radio" value="" name="option_2" class="icheck">Take Away</label>
+					<label><input type="radio" value="0" :checked="getDeliveryOption == 0" name="option_2" class="icheck" @click="changeDeliveryOption(0)">Pick Up</label>
 				</div>
 			</div><!-- Edn options 2 -->
 			<hr>
@@ -35,11 +35,16 @@
 							 Subtotal <span class="pull-right">Rs {{ getSubTotal }}</span>
 						</td>
 					</tr>
-					<!-- <tr>
+					<tr>
 						<td>
-							 Delivery fee <span class="pull-right">$10</span>
+							 Delivery fee <span class="pull-right">Rs {{ getDeliveryFee }}</span>
 						</td>
-					</tr> -->
+					</tr>
+					<tr>
+						<td>
+							Tax <span class="pull-right">{{ getTax }}%</span>
+						</td>
+					</tr>
 					<tr>
 						<td class="total">
 							 TOTAL <span class="pull-right">Rs {{ getTotal }}</span>
@@ -57,9 +62,7 @@
 <script type="text/javascript">
 export default {
 	data() {
-		return {
-
-		}
+		return {}
 	},
 
 	computed: {
@@ -68,31 +71,37 @@ export default {
 		},
 
 		getSubTotal(state) {
-			if(! this.getCartItems.length) {
-				return 0;
-			}
-
-			let total = 0;
-
-			this.getCartItems.forEach((item) => {
-				total += (item.entry.price * item.quantity);
-			});
-
-			return total;
+			return this.$store.getters['cart/getSubTotal'];
 		},
 
 		getDeliveryFee() {
 			return this.$store.getters['cart/getDeliveryFee'];
 		},
 
+		getTax() {
+			return this.$store.getters['cart/getTax'];
+		},
+
 		getTotal() {
-			return this.getSubTotal + this.getDeliveryFee;
+			return Math.floor(this.getSubTotal + this.getDeliveryFee + ((this.getSubTotal * this.getTax) / 100));
+		},
+
+		getDeliveryOption() {
+			return this.$store.getters['cart/getDeliveryOption'];
+		},
+
+		getCartRestaurant() {
+			return this.$store.getters['cart/getRestaurant'];
 		}
 	},
 
 	methods: {
 		removeFromCart(item) {
 			this.$store.commit('cart/REMOVE_FROM_CART', item);
+		},
+
+		changeDeliveryOption(value) {
+			this.$store.commit('cart/CHANGE_DELIVERY_OPTION', value);
 		}
 	}
 }

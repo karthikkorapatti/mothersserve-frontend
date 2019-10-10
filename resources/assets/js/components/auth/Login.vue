@@ -12,6 +12,9 @@
 			<a href="#">Forgot Password?</a>
 		</div> -->
 		<button class="btn btn-submit" @click="submit()">Submit</button>
+		<div class="text-left">
+			Dont have account? <a href="javascript:void(0);" @click="register()">Click here</a>
+		</div>
 	</div>
 </div>
 </template>
@@ -56,6 +59,11 @@ export default {
 
  				this.errors.push(error.response.data.data);
  			});
+		},
+
+		register() {
+			window.events.$emit('register:requested', true);
+			this.$modal.hide('modal:users:login');
 		}
 	}
 }

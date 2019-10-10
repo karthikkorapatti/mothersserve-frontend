@@ -17,7 +17,7 @@
 			<div class="dropdown-menu">
 				<h5>Instructions</h5>
 				<label>
-					<textarea placeholder="Special Instructions (optional)"></textarea>
+					<textarea placeholder="Special Instructions (optional)" v-model="specialInstructions"></textarea>
 				</label>
 				<button @click="decrementOrderCount">-</button>
 				<label>
@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import ClearCart from './ClearCart';
+
 export default {
 	props: {
 		item: {
@@ -45,13 +47,26 @@ export default {
 	data() {
 		return {
 			dropDown: false,
-			orderCount: 1
+			orderCount: 1,
+			specialInstructions: ''
 		}
 	},
 
 	computed: {
 		totalOrderCount() {
 			return this.item.price * this.orderCount;
+		},
+
+		restaurant() {
+			return this.$parent.$parent.$parent.restaurant;
+		},
+
+		getItemsCount() {
+			return this.$store.getters['cart/getItemsCount'];
+		},
+
+		getCartRestaurant() {
+			return this.$store.getters['cart/getRestaurant'];
 		}
 	},
 
@@ -91,15 +106,41 @@ export default {
 				return;
 			}
 
-			this.$store.commit('cart/ADD_TO_CART', {
+			let cart = {
 				quantity: this.orderCount,
 				entry: {
 					id: this.item.id,
 					name: this.item.name,
 					price: parseFloat(this.item.price),
-					currency: 'Rs'
+					currency: this.restaurant.Currency.symbol
 				}
-			});
+			};
+
+			if(! this.getItemsCount) {
+				cart.restaurant = this.restaurant.Restaurant;
+				cart.tax = this.restaurant.Tax.tax;
+			}
+
+			if(this.getCartRestaurant && this.restaurant.Restaurant.id != this.getCartRestaurant.id) {
+				cart.restaurant = this.restaurant.Restaurant;
+				cart.tax = this.restaurant.Tax.tax;
+
+				this.$modal.show(ClearCart, {
+					initCart: cart
+				}, {
+					name: 'modal:cart:clear',
+					height: 'auto',
+					clickToClose: false
+				});
+
+				this.dropDown = false;
+
+				return;
+			}
+
+			this.$store.commit('cart/ADD_TO_CART', cart);
+
+			this.dropDown = false;
 		}
 	},
 

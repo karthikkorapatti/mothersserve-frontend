@@ -23,17 +23,17 @@ export default new Router({
       component: Restaurant
     },
     {
-      path: '/orderNow',
+      path: '/order-now',
       name: 'orderNow',
      component: orderNow
     },
     {
-      path: '/Checkout',
-      name: 'Checkout',
+      path: '/checkout',
+      name: 'checkOut',
      component: Checkout
     },
     {
-      path: '/ConfirmOrder',
+      path: '/order-confirmed',
       name: 'ConfirmOrder',
      component: ConfirmOrder
     }
