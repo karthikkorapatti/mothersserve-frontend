@@ -121,6 +121,8 @@ export default {
 		}
 
 		this.getAddresses();
+
+		this.selectedAddress = this.getDeliveryAddress;
 	},
 
 	methods: {

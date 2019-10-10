@@ -4,10 +4,14 @@
 		<div class="box_style_2">
 			<h2 class="inner">Payment methods</h2>
 			<div class="payment_select" id="paypal">
-				<label><input type="radio" value="1" name="payment_method" class="icheck">Pay with Instamojo</label>
+				<label><input type="radio" value="1" name="payment_method" class="icheck"
+					:checked="getPaymentMethod == 1"
+					@click="selectPaymentMethod(1)">Pay with Instamojo</label>
 			</div>
 			<div class="payment_select nomargin">
-				<label><input type="radio" value="0" name="payment_method" class="icheck">Pay with cash</label>
+				<label><input type="radio" value="0" name="payment_method" class="icheck"
+					:checked="getPaymentMethod == 0"
+					@click="selectPaymentMethod(0)">Pay with cash</label>
 				<i class="icon_wallet"></i>
 			</div>
 		</div><!-- End box_style_1 -->
@@ -43,7 +47,7 @@
 	</portal>
 
 	<portal to="destination">
-		<router-link to="/ConfirmOrder" class="btn_full">Confirm your order</router-link>
+		<a href="javascript:void(0);" @click="confirmOrder()" class="btn_full">Confirm your order</a>
 	</portal>
 
 	<portal	to="sideBarLeft">
@@ -64,6 +68,7 @@
 
 <script>
 import CartItems from './CartItems.vue'
+import Loader from './Loader';
 
 export default {
 	components: {
@@ -71,9 +76,109 @@ export default {
 	},
 
 	data() {
-		return {}
+		return {
+
+		}
 	},
 
-	methods: {}
+	computed: {
+		getItemsCount() {
+			return this.$store.getters['cart/getItemsCount'];
+		},
+
+		getCartItems() {
+			return this.$store.getters['cart/getItems'];
+		},
+
+		getSubTotal(state) {
+			return this.$store.getters['cart/getSubTotal'];
+		},
+
+		getDeliveryFee() {
+			return this.$store.getters['cart/getDeliveryFee'];
+		},
+
+		getTax() {
+			return this.$store.getters['cart/getTax'];
+		},
+
+		getDeliveryOption() {
+			return this.$store.getters['cart/getDeliveryOption'];
+		},
+
+		getDeliveryAddress() {
+			return this.$store.getters['cart/getDeliveryAddress'];
+		},
+
+		getPaymentMethod() {
+			return this.$store.getters['cart/getPaymentMethod'];
+		},
+
+		getCartRestaurant() {
+			return this.$store.getters['cart/getRestaurant'];
+		},
+
+		getRiderTip() {
+			return this.$store.getters['cart/getRiderTip'];
+		},
+	},
+
+	mounted() {
+		if(this.getItemsCount == 0) {
+			this.$router.push({
+				name: 'home'
+			});
+
+			return;
+		}
+	},
+
+	methods: {
+		confirmOrder() {
+			this.$modal.show(Loader, {}, {
+				name: 'modal:loader',
+				height: 'auto',
+				clickToClose: false
+			});
+
+			axios.post(`${this.$root.urls.api}/confirm-order`, this.prepareData())
+ 			.then(({data}) => {
+ 				console.log(data);
+
+ 				this.$store.commit('cart/EMPTY_CART');
+ 				this.$modal.hide('modal:loader');
+ 			})
+ 			.catch(error => {
+ 				console.log(error);
+
+ 				this.$store.commit('cart/EMPTY_CART');
+ 				this.$modal.hide('modal:loader');
+ 			});
+
+		},
+
+		selectPaymentMethod(value) {
+			this.$store.commit('cart/ADD_PAYMENT_METHOD', value);
+		},
+
+		prepareData() {
+			let data = {};
+
+			data.quantity = this.getItemsCount;
+			data.sub_total = this.getSubTotal;
+			data.delivery_fee = this.getDeliveryFee;
+			data.tax = this.getTax;
+			data.delivery = this.getDeliveryOption;
+			data.payment_method = this.getPaymentMethod;
+			data.restaurant_id = this.getCartRestaurant.id;
+			data.address_id = this.getDeliveryAddress? this.getDeliveryAddress.id : 0;
+			data.rider_tip = this.getRiderTip;
+			data.instructions = '';
+			data.coupon_id = 0;
+			data.items = this.getCartItems;
+
+			return data;
+		}
+	}
 }
 </script>

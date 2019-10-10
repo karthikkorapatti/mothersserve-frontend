@@ -4,11 +4,12 @@ export default {
 	state: {
 		items: [],
 		deliveryOption: 1,
-		raiderTip: 0,
+		riderTip: 0,
 		deliveryFee: 0,
 		tax: 0,
 		restaurant: '',
-		address: null
+		address: null,
+		paymentMethod: 0
 	},
 
 	getters: {
@@ -16,8 +17,8 @@ export default {
 			return 0;
 		},
 
-		getRaiderTip(state) {
-			return state.raiderTip;
+		getRiderTip(state) {
+			return state.riderTip;
 		},
 
 		getTax(state) {
@@ -57,6 +58,10 @@ export default {
 		getDeliveryAddress(state) {
 			return state.address;
 		},
+
+		getPaymentMethod(state) {
+			return state.paymentMethod;
+		}
 	},
 
 	mutations: {
@@ -77,9 +82,15 @@ export default {
 			}
 
 			if(index < 0) {
-				state.items.push(payload);
+				state.items.push({
+					quantity: payload.quantity,
+					entry: payload.entry
+				});
 			} else {
-				state.items.splice(index, 1, payload);
+				state.items.splice(index, 1, {
+					quantity: payload.quantity,
+					entry: payload.entry
+				});
 			}
 		},
 
@@ -102,11 +113,11 @@ export default {
 		EMPTY_CART(state, payload) {
 			state.items = [];
 			state.deliveryOption = 1;
-			state.raiderTip = 0;
+			state.riderTip = 0;
 			state.deliveryFee = 0;
 			state.tax = 0;
 			state.restaurant = '';
-			state.address = null;
+			// state.address = null;
 		},
 
 		CHANGE_DELIVERY_OPTION(state, payload) {
@@ -119,6 +130,18 @@ export default {
 
 		ADD_DELIVERY_ADDRESS(state, payload) {
 			state.address = payload;
+		},
+
+		ADD_PAYMENT_METHOD(state, payload) {
+			state.paymentMethod = payload;
+		},
+
+		ADD_TAX(state, payload) {
+			state.tax = payload;
+		},
+
+		ADD_RESTAURANT(state, payload) {
+			state.restaurant = payload;
 		}
 	},
 

@@ -19,6 +19,8 @@ Route::group(['prefix' => 'api/v1', 'namespace' => 'Api\V1'], function() {
 	Route::post('register', 'Auth\LoginController@register');
 	Route::post('logout', 'Auth\LoginController@logout');
 
+	Route::post('confirm-order', 'OrdersController@store');
+
 	Route::get('restaurants', 'RestaurantsController@index');
 	Route::get('restaurants/{id}', 'RestaurantsController@show');
 	Route::get('addresses', 'AddressesController@index');
