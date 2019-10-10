@@ -9,7 +9,6 @@
 					name="payment_method"
 					:checked="(getDeliveryAddress && getDeliveryAddress.id) == address.Address.id"
 					class="icheck"
-					v-model="selectedAddress"
 					@click="selectDeliveryAddress(address.Address)">{{ formatAddress(address.Address) }}</label>
 			</div>
 		</div><!-- End box_style_1 -->
@@ -126,17 +125,17 @@ export default {
 
 	methods: {
 		goToCheckOut() {
-			if(! this.selectedAddress) {
+			if(! this.selectedAddress && this.getDeliveryOption) {
 				this.openingShortly = true;
 
 				return;
 			}
 
-			this.openingShortly = false;
-
 			this.$router.push({
 				name: 'checkOut'
 			});
+
+			this.openingShortly = false;
 		},
 
 		getAddresses() {
@@ -163,6 +162,8 @@ export default {
 		},
 
 		selectDeliveryAddress(address) {
+			this.selectedAddress = address;
+
 			this.$store.commit('cart/ADD_DELIVERY_ADDRESS', address);
 		}
 	}
