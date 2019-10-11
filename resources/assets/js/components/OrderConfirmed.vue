@@ -6,14 +6,22 @@
 				<div id="confirm">
 					<i class="icon_check_alt2"></i>
 					<h3>Thank you!</h3>
-					<p>
+					<!-- <p>
 						Lorem ipsum dolor sit amet, nostrud nominati vis ex, essent conceptam eam ad. Cu etiam comprehensam nec. Cibo delicata mei an, eum porro legere no.
-					</p>
+					</p> -->
 				</div>
 				<h4>Summary</h4>
 				<table class="table table-striped nomargin">
 				<tbody>
-				<tr>
+					<tr>
+					<td>
+						Done...!!!
+					</td>
+					<td>
+						
+					</td>
+				</tr>
+				<!-- <tr>
 					<td>
 						<strong>1x</strong> Enchiladas
 					</td>
@@ -68,7 +76,7 @@
 					<td class="total_confirm">
 						<span class="pull-right">$66</span>
 					</td>
-				</tr>
+				</tr> -->
 				</tbody>
 				</table>
 			</div>

@@ -4,7 +4,7 @@ import Restaurants from './components/Restaurants.vue'
 import Restaurant from './components/Restaurant.vue'
 import orderNow from './components/OrderNow.vue'
 import Checkout from './components/Checkout.vue'
-import ConfirmOrder from './components/ConfirmOrder.vue'
+import OrderConfirmed from './components/OrderConfirmed.vue'
 
 Vue.use(Router)
 
@@ -33,9 +33,9 @@ export default new Router({
      component: Checkout
     },
     {
-      path: '/order-confirmed',
-      name: 'ConfirmOrder',
-     component: ConfirmOrder
+      path: '/orders/:id/confirmed',
+      name: 'orderConfirmed',
+     component: OrderConfirmed
     }
   ],
 
