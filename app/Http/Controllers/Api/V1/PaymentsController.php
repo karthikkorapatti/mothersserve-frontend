@@ -15,10 +15,10 @@ class PaymentsController extends VendorController
 			$body['payment_request_id'] = $request->payment_request_id?: '';
 			$body['payment_id'] = $request->payment_id?: '';
 
-			$body = json_encode($body);
+			// $body = json_encode($body);
 
 			$request = $this->client->post('payments/' . $id . '/checkout', [
-				'body' => $body,
+				'form_params' => $body,
 				'headers' => [
 					'Content-Type' => 'application/json'
 				]
