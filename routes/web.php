@@ -29,7 +29,7 @@ Route::group(['prefix' => 'api/v1', 'namespace' => 'Api\V1'], function() {
 });
 
 Route::get('payments/{id}/callback', function() {
-	return redirect('/api/v1/payments/{id}/callback');
+	return redirect('/api/v1/payments/{id}/callback', ['id' => $id]);
 });
 
 Route::get('/{vue?}', function () {
