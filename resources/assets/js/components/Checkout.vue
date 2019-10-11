@@ -145,6 +145,14 @@ export default {
  			.then(({data}) => {
  				console.log(data);
 
+ 				if(typeof data.data == 'object' && data.data.hasOwnProperty('payment_url')) {
+ 					window.location.href = data.data.payment_url;
+ 				}
+
+ 				if(typeof data.data == 'object' && data.data.hasOwnProperty('redirect_to')) {
+ 					this.$router.push(data.data.redirect_to);
+ 				}
+
  				this.$store.commit('cart/EMPTY_CART');
  				this.$modal.hide('modal:loader');
  			})

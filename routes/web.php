@@ -20,10 +20,16 @@ Route::group(['prefix' => 'api/v1', 'namespace' => 'Api\V1'], function() {
 	Route::post('logout', 'Auth\LoginController@logout');
 
 	Route::post('confirm-order', 'OrdersController@store');
+	Route::post('orders/{id}/confirm', 'OrdersController@confirm')->name('orders.confirm');
 
 	Route::get('restaurants', 'RestaurantsController@index');
 	Route::get('restaurants/{id}', 'RestaurantsController@show');
 	Route::get('addresses', 'AddressesController@index');
+	Route::get('payments/{id}/callback', 'PaymentsController@callback');
+});
+
+Route::get('payments/{id}/callback', function() {
+	return redirect('/api/v1/payments/{id}/callback');
 });
 
 Route::get('/{vue?}', function () {

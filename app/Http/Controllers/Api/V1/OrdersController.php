@@ -27,7 +27,7 @@ class OrdersController extends VendorController
 			$body['delivery_fee'] = $request->delivery_fee?: 0;
 			$body['delivery'] = $request->delivery_type?: 0;
 			$body['rider_tip'] = $request->rider_tip?: 0;
-			$body['created'] = \Carbon\Carbon::now()->toDateTimeString();
+			$body['order_time'] = \Carbon\Carbon::now()->toDateTimeString();
 
 			$body['menu_item'] = [];
 
@@ -41,25 +41,46 @@ class OrdersController extends VendorController
 
 			$body = json_encode($body);
 
-			$request = $this->client->post('placeOrder', [
+			$clientRequest = $this->client->post('webPlaceOrder', [
 				'body' => $body,
 				'headers' => [
 					'Content-Type' => 'application/json'
 				]
 			]);
-			$output = $request->getBody();
+			$output = $clientRequest->getBody();
 
 			$output = json_decode($output, true);
 
-			info($output);
-
 			$data = array_get($output, 'msg');
 
-			return response()->json(['code' => 200, 'data' => $data]);
+			if($data == 'error') {
+				return response()->json(['code' => 500, 'message' => 'Oops!!! Something went wrong'], 500);
+			}
+
+			if($request->payment_method && array_has($data, 'payment_url')) {
+				return response()->json(['code' => 200, 'data' => [
+						'payment_url' => array_get($data, 'payment_url')
+					]
+				]);
+			}
+
+			if(count($data) != 1) {
+				return response()->json(['code' => 500, 'message' => 'Oops!!! Something went wrong'], 500);
+			}
+
+			return response()->json(['code' => 200, 'data' => [
+					'redirect_to' => '/orders/' . array_get($data[0], 'Order.id') . '/confirmed', 'message' => 'Order Confirmed'
+				]
+			]);
 		} catch (\Exception $e) {
 			info($e);
 
 			return response()->json(['code' => 500, 'message' => 'Oops!!! Something went wrong'], 500);
 		}
+    }
+
+    public function confirm(Request $request, $id)
+    {
+    	
     }
 }
