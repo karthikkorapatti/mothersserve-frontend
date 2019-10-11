@@ -28,7 +28,7 @@ Route::group(['prefix' => 'api/v1', 'namespace' => 'Api\V1'], function() {
 	Route::get('payments/{id}/callback', 'PaymentsController@callback');
 });
 
-Route::get('payments/{id}/callback', function() {
+Route::get('payments/{id}/callback', function($id) {
 	return redirect('/api/v1/payments/{id}/callback', ['id' => $id]);
 });
 
