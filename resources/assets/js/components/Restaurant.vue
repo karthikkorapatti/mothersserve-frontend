@@ -3,10 +3,14 @@
 	<menu-container :menu="restaurant.RestaurantMenu"></menu-container>
 
 	<portal	to="topBanner">
-		<section class="parallax-window" data-parallax="scroll" data-image-src="img/sub_header_2.jpg" data-natural-width="1400" data-natural-height="470">
+		<section class="parallax-window"
+			data-parallax="scroll"
+			data-natural-width="1400" data-natural-height="470"
+			style="background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover;"
+			:style="{backgroundImage: `url(${$root.urls.media}/${restaurant.Restaurant.cover_image})`}">
 			<div id="subheader">
 				<div id="sub_content">
-					<div id="thumb"><img src="/img/thumb_restaurant.jpg" alt=""></div>
+					<div id="thumb"><img :src="`${$root.urls.media}/${restaurant.Restaurant.image}`" alt=""></div>
 					<div class="rating">
 						<i
 							v-for="i in 5" class="icon_star"
