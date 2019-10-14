@@ -3,6 +3,11 @@
 	<div class="col-md-6">
 		<div class="box_style_2" id="order_process">
 			<h2 class="inner">Addressess</h2>
+			<div style="color: #e04f67; font-size: 12px; float: left;">
+				The delivery address should be within RajaRajeshwari Nagar
+			</div>
+			<div style="float:right;"><button class="btn_1" @click="addNewAddress()">+ New Address</button></div>
+			<br>
 			<div>Select Address below:</div>
 			<div class="form-group payment_select" v-for="address in addresses">
 				<label><input type="radio"
@@ -66,7 +71,8 @@
 </template>
 
 <script>
-import CartItems from './CartItems.vue'
+import CartItems from './CartItems.vue';
+import NewAddress from './NewAddress';
 
 export default {
 	components: {
@@ -167,6 +173,14 @@ export default {
 			this.selectedAddress = address;
 
 			this.$store.commit('cart/ADD_DELIVERY_ADDRESS', address);
+		},
+
+		addNewAddress() {
+			this.$modal.show(NewAddress, {}, {
+				name: 'modal:addresses:create',
+				height: 'auto',
+				clickToClose: false
+			});
 		}
 	}
 }
