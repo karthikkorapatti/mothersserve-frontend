@@ -129,6 +129,8 @@ export default {
 		this.getAddresses();
 
 		this.selectedAddress = this.getDeliveryAddress;
+
+		this.loadEvents();
 	},
 
 	methods: {
@@ -181,6 +183,16 @@ export default {
 				height: 'auto',
 				clickToClose: false
 			});
+		},
+
+		loadEvents() {
+			window.events.$on(
+				'addresses:created', (data) => {
+					if(data) {
+						this.getAddresses();
+					}
+				}
+			);
 		}
 	}
 }

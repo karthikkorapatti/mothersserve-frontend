@@ -25,6 +25,7 @@ Route::group(['prefix' => 'api/v1', 'namespace' => 'Api\V1'], function() {
 	Route::get('restaurants', 'RestaurantsController@index');
 	Route::get('restaurants/{id}', 'RestaurantsController@show');
 	Route::get('addresses', 'AddressesController@index');
+	Route::post('addresses', 'AddressesController@store');
 	Route::get('payments/{id}/callback', 'PaymentsController@callback');
 });
 
