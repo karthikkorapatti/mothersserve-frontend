@@ -38,7 +38,7 @@ class LoginController extends VendorController
 			switch (array_get($output, 'code')) {
 				case 200:
 					if(array_has($output, 'msg.User.id')) {
-						Auth::loginUsingId(array_get($output, 'msg.User.id'));
+						Auth::loginUsingId(array_get($output, 'msg.User.id'), true);
 
 						return response()->json(['code' => 200, 'data' =>  array_get($output, 'msg')]);
 					}
@@ -84,7 +84,7 @@ class LoginController extends VendorController
 			switch (array_get($output, 'code')) {
 				case 200:
 					if(array_has($output, 'msg.User.id')) {
-						Auth::loginUsingId(array_get($output, 'msg.User.id'));
+						Auth::loginUsingId(array_get($output, 'msg.User.id'), true);
 
 						return response()->json(['code' => 200, 'data' =>  array_get($output, 'msg')]);
 					}

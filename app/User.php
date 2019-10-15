@@ -29,5 +29,5 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    protected $rememberTokenName = '';
+    // protected $rememberTokenName = '';
 }
