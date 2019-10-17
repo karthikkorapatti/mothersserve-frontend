@@ -29,7 +29,7 @@ new Vue({
 			urls: {
 				base: 'http://mothersserve.test',
 				api: 'http://localhost:8000/api/v1',
-				media: 'http://localhost:8000/mobileapp_api/app/webroot',
+				media: 'https://www.mothersserve.com/mobileapp_api',
 				clientUrl: 'http://mothersserve.test/mobileapp_api/api',
 			}
 		}

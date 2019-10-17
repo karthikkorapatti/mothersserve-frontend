@@ -81,6 +81,41 @@ class OrdersController extends VendorController
 
     public function confirm(Request $request, $id)
     {
-    	
+
+    }
+
+    public function confirmed(Request $request, $id)
+    {
+    	try {
+			$body = ['lat' => '12.9716', 'long' => '77.580643'];
+
+			$body['order_id'] = $id;
+
+			$body = json_encode($body);
+
+			$request = $this->client->post('showOrderDetail', [
+				'body' => $body,
+				'headers' => [
+					'Content-Type' => 'application/json'
+				]
+			]);
+			$output = $request->getBody();
+
+			info($output);
+			$output = json_decode($output, true);
+
+			$data = array_get($output, 'msg');
+
+
+			if(count($data) != 1) {
+				return response()->json(['code' => 500, 'message' => 'Oops!!! Something went wrong'], 500);
+			}
+
+			return response()->json(['code' => 200, 'data' => $data]);
+		} catch (\Exception $e) {
+			info($e);
+
+			return response()->json(['code' => 500, 'message' => 'Oops!!! Something went wrong'], 500);
+		}
     }
 }
