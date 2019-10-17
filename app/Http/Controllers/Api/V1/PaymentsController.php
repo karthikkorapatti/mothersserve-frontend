@@ -9,6 +9,10 @@ class PaymentsController extends VendorController
 {
     public function callback(Request $request, $id)
     {
+    	if($request->payment_status && strtolower($request->payment_status) === 'Failed') {
+    		return redirect('/orders/' . array_get($data[0], 'Order.id') . '/payment-failed');
+    	}
+
     	try {
 			$body = ['lat' => '12.9716', 'long' => '77.580643'];
 
