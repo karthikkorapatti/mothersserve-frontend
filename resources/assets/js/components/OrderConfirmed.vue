@@ -49,7 +49,7 @@
 					<td class="total_confirm">
 						Total
 					</td>
-					<td>
+					<td class="total_confirm">
 						<strong class="pull-right">Rs {{ parseFloat(order.Order.price) }}</strong>
 					</td>
 				</tr>
